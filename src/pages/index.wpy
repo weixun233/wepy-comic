@@ -1,0 +1,150 @@
+<style lang="sass">
+  .index
+    margin: 0 20rpx
+    .header
+      display: flex
+      align-items: center
+      .text
+        flex: 1
+        .title
+          padding-left: 20rpx
+          font-size: 46rpx
+        .small
+          padding-left: 20rpx
+          font-size: 28rpx
+          margin-top: 12rpx
+          color: #999
+      .img
+        flex: 0 0 160rpx
+        text-align: center
+        image
+          width: 100rpx
+          height: 100rpx
+    .main
+      margin-top: 50rpx
+      border-top: 1px dashed #ececec
+      .cont
+        padding: 40rpx 20rpx 0
+        .item
+          display: flex
+          align-items: center
+          justify-content: space-between
+          line-height: 100rpx
+          .iconfont
+            flex: 0 0 60rpx
+            color: #999
+          .text
+            flex: 1
+            text-align: left
+          .text-elip
+            max-width: 80%
+        .item-img
+          width: 100%
+          height: 500rpx
+          display: flex
+          align-items: center
+          flex-wrap: wrap
+          justify-content: space-between
+          .image
+            flex: 0 0 33%
+            height: 200rpx
+            margin-bottom: 6rpx
+</style>
+<template>
+  <view class="index">
+    <!--header-->
+    <view class="header">
+      <view class="text">
+        <view class="title">动漫之家001</view>
+        <view class="small">卡牌 | 二次元</view>
+      </view>
+      <view class="img">
+        <image src="http://ww1.sinaimg.cn/large/005NbQwagy1fooa16cw7tj30cs0cs0zc.jpg"></image>
+      </view>
+    </view>
+    <!--cont-->
+    <view class="main">
+      <view class="cont">
+        <view class="item" @tap="selectMap">
+          <text class="iconfont icon-dizhi"></text>
+          <view class="text text-elip">
+            <wxc-elip>广东省惠州市龙门县西林路XXX巷XX楼XXX号</wxc-elip>
+          </view>
+          <text class="iconfont icon-iconfontjiantou4"></text>
+        </view>
+        <view class="item">
+          <text class="iconfont icon-web-icon-"></text>
+          <text class="text">11:30-23:30</text>
+        </view>
+        <view class="item" @tap="selectPhone">
+          <text class="iconfont icon-web-icon-1"></text>
+          <text class="text">{{iphone}}</text>
+          <text class="iconfont icon-iconfontjiantou4"></text>
+        </view>
+        <view class="item">
+          <text class="iconfont icon-tupian"></text>
+          <text class="text">门店图片</text>
+        </view>
+        <view class="item-img">
+          <repeat for="{{img}}" index="index" item="item" key="index">
+            <image src="{{item}}" class="image" @tap="selectImg({{item}})"></image>
+          </repeat>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '',
+      usingComponents: {
+        'wxc-elip': '../../packages/@minui/wxc-elip/dist/index'
+      }
+    }
+    data = {
+      iphone: 15089214993,
+      img: [
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaey17j30ci0af3z4.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaeqe1j30dw0afmxw.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczafmwmj30ci0b4wfg.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaevr4j30ci0dw3zi.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaerdvj30b408cjrr.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaevulj309s064wf4.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaiso3j30dw0afmy6.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczaidr1j30b408cgly.jpg',
+        'http://ww1.sinaimg.cn/large/005NbQwagy1fooczajrg3j30dw0cd3ze.jpg'
+      ]
+    }
+    methods = {
+      // 地址
+      async selectMap() {
+        // 打开地图 目标地址
+        wepy.openLocation({
+          latitude: 23.7378363180,
+          longitude: 114.2537174981,
+          name: '老虎奶茶饮品店NO.1',
+          address: '广东省惠州市龙门县西林路XXX巷XX楼XXX号',
+          scale: 14
+        })
+        this.$apply()
+      },
+      // 预览图片·
+      selectImg(item) {
+        wepy.previewImage({
+          current: item, // 当前显示图片的http链接
+          urls: this.img // 需要预览的图片http链接列表
+        })
+      },
+      // 电话
+      selectPhone() {
+        wepy.makePhoneCall({
+          phoneNumber: `${this.iphone}`
+        })
+      }
+    }
+    onLoad() {}
+  }
+</script>
